@@ -89,7 +89,7 @@ MonoBehaviour:
     m_Bits: 64
   _attackSpeed: 1
   _projectile: {fileID: 7992158192205856123, guid: 73668f5a3f31f1f49b97d96d46ec64ca, type: 3}
-  _attackRange: 3
+  _attackRange: 5
   _bulletSpeed: 5
 --- !u!1 &3216894003290907506
 GameObject:
