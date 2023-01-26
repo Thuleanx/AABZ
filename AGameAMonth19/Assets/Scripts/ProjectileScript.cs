@@ -1,5 +1,6 @@
 using UnityEngine;
 using Utils;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class ProjectileScript : MonoBehaviour
@@ -10,6 +11,7 @@ public class ProjectileScript : MonoBehaviour
 	// ================== Accessors
 
 	private Vector2 _velocityLastFrame; // need this because when collision happens, our speed is potentially decreased
+	private bool _isDeflectedBullet;
 	public Vector2 Velocity { get => _rigidbody.velocity; set => _rigidbody.velocity = value; }
 	public Timer CurrentLifetime {get; private set; }
 
@@ -40,6 +42,8 @@ public class ProjectileScript : MonoBehaviour
 		Vector2 collisionNormal = collision.contacts[0].normal;
 		// WARNING: this will override the bullet speed. 
 		Velocity = Vector2.Reflect(_velocityLastFrame, collisionNormal);
+		_isDeflectedBullet = true;
+		GetComponentInChildren<SpriteRenderer>().color = (_isDeflectedBullet ? Color.red : Color.green);
 	}
 
 	public void Initialize(Vector2 velocity, bool rotatedToFaceDir)

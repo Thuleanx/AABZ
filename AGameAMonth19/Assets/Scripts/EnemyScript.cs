@@ -65,6 +65,6 @@ public class EnemyScript : MonoBehaviour
 
 		// Send it off
 		ProjectileScript projectileScript = projectile.GetComponent<ProjectileScript>();
-		projectileScript.Initialize(atkDir * _bulletSpeed, true);
+		projectileScript.Initialize(atkDir * _bulletSpeed, rotatedToFaceDir: true);
 	}
 }

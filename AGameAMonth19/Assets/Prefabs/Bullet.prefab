@@ -147,6 +147,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lifetime: 3
+  hitbox: {fileID: 6751995094662736813}
+  _enemyLayerIndex: 28
+  _allyLayerIndex: 29
 --- !u!58 &2320109004539727969
 CircleCollider2D:
   m_ObjectHideFlags: 0
