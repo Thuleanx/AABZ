@@ -52,12 +52,19 @@ public class EnemyScript : MonoBehaviour
 
 	private void Attack()
 	{
-		Assert.IsNotNull(_target);
-		if (_target) {
-			Vector2 atkDir = _target.transform.position - transform.position;
-			if (atkDir != Vector2.zero) atkDir = atkDir.normalized;
-			ProjectileScript projectile = Instantiate<ProjectileScript>(_projectile, transform.position, Quaternion.identity);
-			projectile.Initialize(atkDir * _bulletSpeed, true);
-		}
+		if (!_target) return;
+
+		Vector2 atkDir = _target.transform.position - transform.position;
+		if (atkDir != Vector2.zero) atkDir = atkDir.normalized;
+
+		// Grab a bullet
+		GameObject projectile = ObjectPoolerScript.Instance.GetPooledObject(PooledObjectIndex.Bullet);
+		projectile.transform.position = transform.position;
+		projectile.transform.rotation = Quaternion.identity;
+		projectile.SetActive(true);
+
+		// Send it off
+		ProjectileScript projectileScript = projectile.GetComponent<ProjectileScript>();
+		projectileScript.Initialize(atkDir * _bulletSpeed, true);
 	}
 }

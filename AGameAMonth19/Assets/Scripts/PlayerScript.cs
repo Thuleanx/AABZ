@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-  private PlayerInputData _inputData;
-  private Rigidbody2D     _rigidbody;
+	private PlayerInputData _inputData;
+	private Rigidbody2D     _rigidbody;
 
-  [SerializeField] private float _moveSpeed = 5;
+	[SerializeField] private float _moveSpeed = 5;
 
-  // ================== Methods
+	// ================== Methods
 
-  void Awake()
-  {
-    _inputData = GetComponent<PlayerInputScript>().InputData;
-    _rigidbody = GetComponent<Rigidbody2D>();
-  }
+	void Awake()
+	{
+		_inputData = GetComponent<PlayerInputScript>().InputData;
+		_rigidbody = GetComponent<Rigidbody2D>();
+	}
 
-  void FixedUpdate()
-  {
-    move();
-  }
+	void FixedUpdate()
+	{
+		move();
+	}
 
-  // ================== Helpers
+	// ================== Helpers
 
-  private void move()
-  {
-    // Can introduce lerp-based movement here later
-    _rigidbody.velocity = _moveSpeed * _inputData.Move;
-  }
+	private void move()
+	{
+		// Can introduce lerp-based movement here later
+		_rigidbody.velocity = _moveSpeed * _inputData.Move;
+	}
 }

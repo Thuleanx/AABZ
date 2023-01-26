@@ -7,33 +7,36 @@ public class ProjectileScript : MonoBehaviour
 	[SerializeField] private float _lifetime = 3;
 	private Rigidbody2D _rigidbody;
 
-  	// ================== Accessors
-	private Vector2 _velocityLastFrame;// need this because when collision happens, our speed is potentially decreased
+	// ================== Accessors
+
+	private Vector2 _velocityLastFrame; // need this because when collision happens, our speed is potentially decreased
 	public Vector2 Velocity { get => _rigidbody.velocity; set => _rigidbody.velocity = value; }
 	public Timer CurrentLifetime {get; private set; }
 
-  	// ================== Methods
+	// ================== Methods
 
-	private void Awake() {
+	private void Awake()
+	{
 		_rigidbody = GetComponent<Rigidbody2D>();
 	}
 
-	private void OnEnable() {
+	private void OnEnable()
+	{
 		CurrentLifetime = _lifetime;
 	}
 
-	private void Update() {
-		if (!CurrentLifetime) {
-			// TODO: switch to disable after implementing object pooling
-			Destroy(gameObject);
-		}
+	private void Update()
+	{
+		if (!CurrentLifetime) gameObject.SetActive(false);
 	}
 
-	private void LateUpdate() {
+	private void LateUpdate()
+	{
 		_velocityLastFrame = Velocity;
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision) {
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
 		Vector2 collisionNormal = collision.contacts[0].normal;
 		// WARNING: this will override the bullet speed. 
 		Velocity = Vector2.Reflect(_velocityLastFrame, collisionNormal);

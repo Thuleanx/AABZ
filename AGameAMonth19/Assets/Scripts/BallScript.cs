@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class BallScript : MonoBehaviour
 {
-  private Rigidbody2D _rigidbody;
+	private Rigidbody2D _rigidbody;
 
-  // ================== Accessors
+	// ================== Accessors
 
-  public float AngularVelocity
-  {
-    get { return _rigidbody.angularVelocity; }
-    set { _rigidbody.angularVelocity = value; }
-  }
-  
-  // ================== Methods
+	public float AngularVelocity
+	{
+		get { return _rigidbody.angularVelocity; }
+		set { _rigidbody.angularVelocity = value; }
+	}
+	
+	// ================== Methods
 
-  void Awake()
-  {
-    _rigidbody = GetComponent<Rigidbody2D>();
-  }
+	void Awake()
+	{
+		_rigidbody = GetComponent<Rigidbody2D>();
+	}
 }
