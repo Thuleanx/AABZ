@@ -21,8 +21,21 @@ public class InfluenceFieldScript : MonoBehaviour
 	{
 		if (other.gameObject.tag != "Ball") return;
 		
-		other.gameObject.GetComponent<BallScript>().AngularVelocity = 
-			_inputData.PolarityCW ? -_angularSpeed : _angularSpeed;
+		// other.gameObject.GetComponent<BallScript>().AngularVelocity = 
+		// 	_inputData.PolarityCW ? -_angularSpeed : _angularSpeed;
+
+		if (!(_inputData.LDown ^ _inputData.RDown))
+		{
+			other.gameObject.GetComponent<BallScript>().AngularVelocity = 0;
+		}
+		else if (_inputData.LDown)
+		{
+			other.gameObject.GetComponent<BallScript>().AngularVelocity = -_angularSpeed;
+		}
+		else if (_inputData.RDown)
+		{
+			other.gameObject.GetComponent<BallScript>().AngularVelocity = +_angularSpeed;
+		}
 	}
 
 	void OnTriggerExit2D(Collider2D other)
