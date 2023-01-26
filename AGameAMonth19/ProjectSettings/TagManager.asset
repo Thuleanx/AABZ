@@ -35,10 +35,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - EnemyHitbox
+  - AllyHitbox
+  - EnemyHurtbox
+  - AllyHurtbox
   m_SortingLayers:
   - name: Default
     uniqueID: 0
