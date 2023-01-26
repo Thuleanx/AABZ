@@ -27,7 +27,7 @@ public class ObjectPoolerScript : MonoBehaviour
 	// ================== Methods
 	
 	void Awake()
-	{  
+	{
 		Instance = this;
 		
 		// Assert that for each PooledObjectIndex value, there is one item in _itemsToPool
