@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using NaughtyAttributes;
 
 namespace Modules.Combat
 {
@@ -10,6 +11,7 @@ namespace Modules.Combat
 		public UnityEvent<Status> OnDeath;
 		public UnityEvent<Status> OnHit;
 
+		[field:SerializeField, ProgressBar("Health", 10)]
 		public int Health { get; private set; }
 		public bool IsDead => Health == 0;
 
