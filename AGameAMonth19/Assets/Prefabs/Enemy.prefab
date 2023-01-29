@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bbb7272084df03498c0f558c379cde6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shotChargingTime: 2
-  _shotCooldownTime: 2
-  _spawnTime: 5
+  _shotChargingTime: 1
+  _shotCooldownTime: 1
+  _spawnTime: 3
   _bulletObj: 1
 --- !u!1 &601582963885775869
 GameObject:
