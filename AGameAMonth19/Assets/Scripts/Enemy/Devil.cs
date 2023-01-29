@@ -20,11 +20,11 @@ namespace Modules.Enemy
 		[SerializeField] int _spawnTime;
 		[SerializeField] PooledObjectIndex _bulletObj;
 		float _lastTimeMarker; 
-		float _bulletSpeed = 10;
+
+		[field:SerializeField] public float BulletSpeed {get; private set; }
 
 		void OnEnable() {
 			_state = State.Spawning;
-			_bulletSpeed = 10;
 		}
 
 		void Shoot() {
@@ -49,7 +49,7 @@ namespace Modules.Enemy
 			projectileObj.SetActive(true);
 
 			Projectile projectile = projectileObj.GetComponent<Projectile>();
-			projectile.Initialize(bulletDirection * _bulletSpeed, rotatedToFaceDir: true);
+			projectile.Initialize(bulletDirection * BulletSpeed, rotatedToFaceDir: true);
 		}
 
 		void Update() {
