@@ -15,24 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Look",
-                    "type": "Value",
-                    "id": "42534014-6db2-4b79-9827-05f55b166511",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "PolaritySwitch",
-                    "type": "Button",
-                    "id": "f1fb6914-3d2b-40f0-950f-27f1e553a76a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "LeftClick",
                     "type": "Button",
                     "id": "b9e60a14-9ecf-480a-8d76-d083dd37eecb",
@@ -49,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Mouse",
+                    "type": "Value",
+                    "id": "674161a2-a5b1-4a5d-8e2b-ec497b6e32d5",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -153,44 +144,11 @@
                 },
                 {
                     "name": "",
-                    "id": "8c8e490b-c610-4785-884f-f04217b23ca4",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "333b7373-ae8e-4fa8-9343-c518db040fcd",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "PolaritySwitch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c0db94b7-0bfe-4bf3-86f1-4348f33ed9ec",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "LeftClick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3e64c48e-4cce-404f-bfbb-cdeb5ba5d41b",
-                    "path": "<Keyboard>/j",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
                     "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -208,12 +166,12 @@
                 },
                 {
                     "name": "",
-                    "id": "211f0d86-2db8-4fc8-8325-06d49dae6afb",
-                    "path": "<Keyboard>/l",
+                    "id": "cac96a6d-ea36-4217-9c68-d5a2e5fa4bf9",
+                    "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "RightClick",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Mouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
