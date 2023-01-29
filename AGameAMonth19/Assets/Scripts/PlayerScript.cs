@@ -9,14 +9,29 @@ public class PlayerScript : MonoBehaviour
 	private PlayerInputData _inputData;
 	private Rigidbody2D     _rigidbody;
 
-  // Override-style movement
-	[SerializeField] private float _moveSpeed = 4f;
-	[SerializeField] private float _accelerationLambda = 8;
+  private bool _playerInCircle = false;
+
+  // Movement
+  [SerializeField] private float _moveSpeed = 3f;
+	[SerializeField] private float _accelerationLambda = 6f;
 	[SerializeField] private float _toZeroAccelerationLambdaModifier = 1f;
 
-	// ================== Methods
+  [SerializeField] private List<GameObject> _witches;
 
-	void Awake()
+  // Interaction
+  private GameObject _currentWitch = null;
+  private bool _canPerfectDeflect = true;
+  [SerializeField] private float _perfectDeflectWindow   = 0.075f;
+  [SerializeField] private float _perfectDeflectCooldown = 0.125f;
+
+  // Temporary
+  private Color _white  = new Color(1f, 1f, 1f, 1f);
+  private Color _red    = new Color(1f, 0f, 0f, 1f);
+  private Color _yellow = new Color(1f, 1f, 0f, 1f);
+
+  // ================== Methods
+
+  void Awake()
 	{
 		_inputData = GetComponent<PlayerInputScript>().InputData;
 		_rigidbody = GetComponent<Rigidbody2D>();
@@ -24,13 +39,19 @@ public class PlayerScript : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		move();
-    interact();
+    checkInCircle();
+    handleMovement();
+    handleInteraction();
   }
 
 	// ================== Helpers
 
-	private void move()
+  private void checkInCircle()
+  {
+    _playerInCircle = !!Physics2D.OverlapPoint(_rigidbody.position, LayerMask.GetMask("BloodCircle"));
+  }
+
+	private void handleMovement()
 	{
     // Override-style movement
 
@@ -46,11 +67,82 @@ public class PlayerScript : MonoBehaviour
 			Vector2.Lerp(currVel, targetVel, 1 - Mathf.Exp(-_accelerationLambda * otherDirectionBonus * Time.deltaTime));
 	}
 
-  private void interact()
+  private void handleInteraction()
   {
-    if (_inputData.LDown)
+    if (!_inputData.LDown) return;
+
+    // Handle mouse click
+    // how to handle target changes??
+    if (_canPerfectDeflect)
     {
-      Debug.Log("LDown");
+      setCurrentWitch();
+
+      if (!_currentWitch) return;
+
+      StartCoroutine(startPerfectDeflect());
     }
+  }
+  
+  private IEnumerator startPerfectDeflect()
+  {
+    _canPerfectDeflect = false;
+
+    // Start perfect deflect
+    _currentWitch.GetComponent<SpriteRenderer>().material.color = _red;
+
+    yield return new WaitForSeconds(_perfectDeflectWindow);
+
+    // End perfect deflect
+    _currentWitch.GetComponent<SpriteRenderer>().material.color = _white;
+
+    // Start continuous deflect
+    while (_inputData.LDown)
+    {
+      if (_playerInCircle)
+      {
+        foreach (GameObject witch in _witches)
+        {
+          witch.GetComponent<SpriteRenderer>().material.color = _yellow;
+        }
+      }
+      else if (_currentWitch)
+      {
+        foreach (GameObject witch in _witches)
+        {
+          witch.GetComponent<SpriteRenderer>().material.color = _white;
+        }
+        _currentWitch.GetComponent<SpriteRenderer>().material.color = _yellow;
+      }
+
+      yield return null;
+    }
+
+    // End continuous deflect
+    foreach (GameObject witch in _witches)
+    {
+      witch.GetComponent<SpriteRenderer>().material.color = _white;
+    }
+
+    // Start cooldown
+    yield return new WaitForSeconds(_perfectDeflectCooldown);
+    
+    _canPerfectDeflect = true;
+
+  }
+
+  private void setCurrentWitch()
+  {
+    Vector3 worldSpacePos = Camera.main.ScreenToWorldPoint(new Vector3(
+      _inputData.Mouse.x,
+      _inputData.Mouse.y,
+      Camera.main.nearClipPlane));
+
+    // Select correct witch
+    Collider2D mouseInteractionCollider = Physics2D.OverlapPoint(
+      worldSpacePos,
+      LayerMask.GetMask("MouseInteraction"));
+
+    // Set
+    _currentWitch = mouseInteractionCollider ? mouseInteractionCollider.transform.parent.gameObject : null;
   }
 }
