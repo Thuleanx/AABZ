@@ -11,14 +11,15 @@ public enum PooledObjectIndex : int
 [System.Serializable]
 public class ObjectPoolItem
 {
+	public string name;
 	public GameObject objectToPool;
 	public int initialAmount;
 }
 
 [DisallowMultipleComponent]
-public class ObjectPoolerScript : MonoBehaviour
+public class ObjectPooler : MonoBehaviour
 {
-	public static ObjectPoolerScript Instance;
+	public static ObjectPooler Instance;
 
 	[SerializeField] private List<ObjectPoolItem> _itemsToPool;
 

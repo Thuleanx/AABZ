@@ -58,7 +58,7 @@ public class EnemyScript : MonoBehaviour
 		if (atkDir != Vector2.zero) atkDir = atkDir.normalized;
 
 		// Grab a bullet
-		GameObject projectile = ObjectPoolerScript.Instance.GetPooledObject(PooledObjectIndex.Bullet);
+		GameObject projectile = ObjectPooler.Instance.GetPooledObject(PooledObjectIndex.Bullet);
 		projectile.transform.position = transform.position;
 		projectile.transform.rotation = Quaternion.identity;
 		projectile.SetActive(true);
