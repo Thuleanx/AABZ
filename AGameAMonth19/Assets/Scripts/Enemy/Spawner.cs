@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using Utils;
 
 namespace Modules.Enemy
 {
@@ -20,28 +22,41 @@ namespace Modules.Enemy
 			float bulletTravelTime = bulletTravelBeats * 60f/BPM;
 			float distanceToCandidate = bulletTravelTime * enemy.BulletSpeed + allyShieldRadius;
 
-			// pick placement
 			Vector2 spawnPos = Vector2.zero;
 			int playerIndex = AllyTarget.AllTargets.FindIndex((target) => {
 				return target.tag == "Player";
 			});
+
+			List<Vector2> allyHull = new List<Vector2>();
+			// find if pos is in convex hull of all allies (not player)
+			for (int i = 0; i < AllyTarget.AllTargets.Count; i++) if (i != playerIndex)
+				allyHull.Add(AllyTarget.AllTargets[i].transform.position);
+			allyHull = Algorithm.ComputeHull(allyHull);
+			
 			do {
-				AllyTarget target = AllyTarget.AllTargets[Random.Range(0,AllyTarget.AllTargets.Count)];
-				if (target.tag == "Player") continue;
+				int allyIndex = Random.Range(0, allyHull.Count);
 
 				float angle = Random.Range(0, Mathf.PI * 2);
-				Vector2 offset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
+				Vector2 offset = (new Vector2(Mathf.Sin(angle), Mathf.Cos(angle))) * distanceToCandidate;
 
-				Vector2 pos = offset + (Vector2) target.transform.position;
+				spawnPos = offset + allyHull[allyIndex];
 
-				// find if pos is in convex hull of 
-				for (int i = 0; i < AllyTarget.AllTargets.Count; i++) if (i != playerIndex) {
-					for (int j = 0; j < AllyTarget.AllTargets.Count; j++) if (j != playerIndex) {
-						for (int k = 0; k < AllyTarget.AllTargets.Count; k++) if (k != playerIndex && i != j && j != k) {
-							
-						}
+				// see if point is inside of convex hull
+				if (allyHull.Count <= 2) break;
+				bool outside = Vector3.Cross(allyHull[(allyIndex+1) % allyHull.Count] - allyHull[allyIndex], spawnPos - allyHull[allyIndex]).z <= 0 || 
+					Vector3.Cross(allyHull[allyIndex+1] - allyHull[(allyIndex-1 + allyHull.Count)%allyHull.Count], spawnPos - allyHull[(allyIndex-1 + allyHull.Count)%allyHull.Count]).z <= 0;
+
+				if (!outside) continue;
+
+				bool closestToIndex = true;
+				foreach (Vector2 allyPos in allyHull) {
+					if (Vector2.Distance(allyPos, spawnPos) < distanceToCandidate) {
+						closestToIndex = false;
+						break;
 					}
 				}
+
+				if (closestToIndex) break;
 
 			} while (true);
 		}
