@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bbb7272084df03498c0f558c379cde6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shotChargingTime: 1
-  _shotCooldownTime: 1
-  _spawnTime: 3
+  <ShotChargingTime>k__BackingField: 2
+  <SpawnTime>k__BackingField: 2
   _bulletObj: 1
+  <BulletSpeed>k__BackingField: 2
 --- !u!1 &601582963885775869
 GameObject:
   m_ObjectHideFlags: 0

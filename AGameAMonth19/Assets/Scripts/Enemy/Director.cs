@@ -4,17 +4,13 @@ using Utils;
 
 namespace Modules.Enemy
 {
-	public class Spawner : MonoBehaviour
+	public class Director : MonoBehaviour
 	{
-		const int BPM = 80;
-		[SerializeField] PooledObjectIndex _enemyPoolIndex;
+		protected const int BPM = 80;
 		[SerializeField] float allyShieldRadius;
 
-		void Update() {
-		}
-
-		void Spawn(float bulletTravelBeats) {
-			GameObject enemyObj = ObjectPooler.Instance.GetPooledObject(_enemyPoolIndex);
+		protected void Spawn(PooledObjectIndex enemyPoolIndex, float bulletTravelBeats, float shotCooldownTime) {
+			GameObject enemyObj = ObjectPooler.Instance.GetPooledObject(enemyPoolIndex);
 			enemyObj.SetActive(true); // just so no other Spawn can overtake, not that it matters
 
 			Devil enemy = enemyObj.GetComponent<Devil>();
@@ -41,10 +37,12 @@ namespace Modules.Enemy
 
 				spawnPos = offset + allyHull[allyIndex];
 
+				// see if point is inside scene
+
 				// see if point is inside of convex hull
 				if (allyHull.Count <= 2) break;
 				bool outside = Vector3.Cross(allyHull[(allyIndex+1) % allyHull.Count] - allyHull[allyIndex], spawnPos - allyHull[allyIndex]).z <= 0 || 
-					Vector3.Cross(allyHull[allyIndex+1] - allyHull[(allyIndex-1 + allyHull.Count)%allyHull.Count], spawnPos - allyHull[(allyIndex-1 + allyHull.Count)%allyHull.Count]).z <= 0;
+					Vector3.Cross(allyHull[allyIndex] - allyHull[(allyIndex-1 + allyHull.Count)%allyHull.Count], spawnPos - allyHull[(allyIndex-1 + allyHull.Count)%allyHull.Count]).z <= 0;
 
 				if (!outside) continue;
 
@@ -59,6 +57,11 @@ namespace Modules.Enemy
 				if (closestToIndex) break;
 
 			} while (true);
+
+			// perform the spawning
+			enemy.transform.position = spawnPos;
+			enemy.transform.rotation = Quaternion.identity;
+			enemy.SetShotCooldown(shotCooldownTime);
 		}
 	}
 }

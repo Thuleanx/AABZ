@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Modules.Enemy
 {
@@ -7,12 +7,7 @@ namespace Modules.Enemy
 	{
 		public static List<AllyTarget> AllTargets = new List<AllyTarget>();
 
-		void OnEnable() {
-			AllTargets.Add(this);
-		}
-
-		void OnDisable() {
-			AllTargets.Remove(this);
-		}
+		void OnEnable() { AllTargets.Add(this); }
+		void OnDisable() { AllTargets.Remove(this); }
 	}
 }
